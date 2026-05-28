@@ -1,2 +1,569 @@
-# la-cebolla
-la cebolla es un buen juego de pregunta sobre las manifestaciones artísticas y culturales.
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Diversidad lingüística y cultural</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #1e1e1e;
+            color: white;
+            text-align: center;
+        }
+
+        .pantalla {
+            padding: 40px;
+            margin-top: 50px;
+        }
+
+        .oculto {
+            display: none;
+        }
+
+        button {
+            width: 300px;
+            padding: 15px;
+            margin: 10px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background: #3498db;
+            color: white;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+
+        #pregunta {
+            font-size: 30px;
+            margin-bottom: 30px;
+        }
+
+        #puntos {
+            margin-top: 30px;
+            font-size: 25px;
+            color: yellow;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- PANTALLA INICIO -->
+    <div id="inicio" class="pantalla">
+        <h1>🎮 Diversidad lingüística y cultural 🎮</h1>
+
+        <h2>INSTRUCCIONES</h2>
+
+        <p>
+            ✔ Son 25 preguntas
+            <br><br>
+
+            ✔ Cada respuesta correcta vale 2 puntos
+            <br><br>
+
+            ✔ Tienes 10 segundos por pregunta
+            <br><br>
+
+            ✔ Intenta conseguir el máximo puntaje
+        </p>
+
+        <button onclick="iniciarJuego()">
+            CONTINUAR
+        </button>
+    </div>
+
+    <!-- PANTALLA JUEGO -->
+    <div id="juego" class="pantalla oculto">
+
+        <h2 id="numeroPregunta"></h2>
+
+        <div id="pregunta"></div>
+
+        <div>
+            <button class="respuesta" onclick="verificarRespuesta(0)"></button>
+            <br>
+
+            <button class="respuesta" onclick="verificarRespuesta(1)"></button>
+            <br>
+
+            <button class="respuesta" onclick="verificarRespuesta(2)"></button>
+            <br>
+
+            <button class="respuesta" onclick="verificarRespuesta(3)"></button>
+        </div>
+
+        <div id="puntos">
+            Puntos: 0
+        </div>
+    </div>
+
+    <!-- PANTALLA FINAL -->
+    <div id="final" class="pantalla oculto">
+
+        <h1>🏆 JUEGO TERMINADO 🏆</h1>
+
+        <h2 id="resultado"></h2>
+
+        <button onclick="location.reload()">
+            JUGAR OTRA VEZ
+        </button>
+    </div>
+
+    <script>
+
+        let preguntas = [
+
+            {
+                pregunta: "¿Qué es la diversidad lingüística?",
+                opciones: [
+                    "Que todos hablen el mismo idioma",
+                    "La existencia de diferentes lenguas en un lugar",
+                    "Solo hablar español",
+                    "Cambiar palabras por señas"
+                ],
+                correcta: 1
+            },
+
+            {
+                pregunta: "¿Qué significa diversidad cultural?",
+                opciones: [
+                    "Tener una sola tradición",
+                    "Comer lo mismo siempre",
+                    "La variedad de culturas y costumbres",
+                    "Hablar únicamente inglés"
+                ],
+                correcta: 2
+            },
+
+            {
+                pregunta: "¿Cuál es un ejemplo de lengua indígena en México?",
+                opciones: [
+                    "Francés",
+                    "Náhuatl",
+                    "Italiano",
+                    "Alemán"
+                ],
+                correcta: 1
+            },
+
+            {
+                pregunta: "¿Por qué es importante respetar otras culturas?",
+                opciones: [
+                    "Porque evita aprender",
+                    "Porque todas las culturas tienen valor",
+                    "Porque unas culturas son mejores",
+                    "Porque obliga la escuela"
+                ],
+                correcta: 1
+            },
+
+            {
+                pregunta: "¿Qué ayuda a conservar una lengua?",
+                opciones: [
+                    "Dejar de hablarla",
+                    "Prohibirla",
+                    "Enseñarla a nuevas generaciones",
+                    "Cambiarla por otro idioma"
+                ],
+                correcta: 2
+            },
+
+            {
+                pregunta: "¿Qué país tiene gran diversidad cultural?",
+                opciones: [
+                    "México",
+                    "Un país sin habitantes",
+                    "Un lugar sin tradiciones",
+                    "Ninguno"
+                ],
+                correcta: 0
+            },
+
+            {
+                pregunta: "¿Qué puede representar una cultura?",
+                opciones: [
+                    "Tradiciones y costumbres",
+                    "Solo ropa",
+                    "Solo comida",
+                    "Solo música"
+                ],
+                correcta: 0
+            },
+
+            {
+                pregunta: "¿Qué es una tradición?",
+                opciones: [
+                    "Algo moderno de internet",
+                    "Una costumbre que se transmite con el tiempo",
+                    "Un deporte nuevo",
+                    "Una regla de tránsito"
+                ],
+                correcta: 1
+            },
+
+            {
+                pregunta: "¿Cuál es una forma de respetar la diversidad cultural?",
+                opciones: [
+                    "Burlarse de otras personas",
+                    "Ignorar otras costumbres",
+                    "Escuchar y aprender de otros",
+                    "Prohibir idiomas"
+                ],
+                correcta: 2
+            },
+
+            {
+                pregunta: "¿Qué sucede cuando desaparece una lengua?",
+                opciones: [
+                    "No pasa nada",
+                    "Se pierde parte de una cultura",
+                    "Se crean más países",
+                    "Todos hablan igual"
+                ],
+                correcta: 1
+            },
+
+            {
+                pregunta: "¿Qué idioma se habla principalmente en México?",
+                opciones: [
+                    "Portugués",
+                    "Español",
+                    "Japonés",
+                    "Chino"
+                ],
+                correcta: 1
+            },
+
+            {
+                pregunta: "¿Qué celebran muchas culturas con fiestas?",
+                opciones: [
+                    "Tradiciones y eventos importantes",
+                    "Solo partidos de fútbol",
+                    "Exámenes escolares",
+                    "Viajes espaciales"
+                ],
+                correcta: 0
+            },
+
+            {
+                pregunta: "¿Qué es el bilingüismo?",
+                opciones: [
+                    "Hablar dos idiomas",
+                    "Hablar muy fuerte",
+                    "Hablar solo inglés",
+                    "No saber leer"
+                ],
+                correcta: 0
+            },
+
+            {
+                pregunta: "¿Qué puede variar entre culturas?",
+                opciones: [
+                    "La comida y la música",
+                    "Solo el clima",
+                    "Solo las casas",
+                    "Nada"
+                ],
+                correcta: 0
+            },
+
+            {
+                pregunta: "¿Cómo podemos aprender de otras culturas?",
+                opciones: [
+                    "Leyendo y conviviendo con personas",
+                    "Ignorándolas",
+                    "Criticándolas",
+                    "Evitando hablar con otros"
+                ],
+                correcta: 0
+            },
+
+            {
+                pregunta: "¿Qué es una lengua materna?",
+                opciones: [
+                    "El primer idioma que aprende una persona",
+                    "El idioma de internet",
+                    "El idioma más difícil",
+                    "Un idioma inventado"
+                ],
+                correcta: 0
+            },
+
+            {
+                pregunta: "¿Qué continente tiene muchos idiomas y culturas diferentes?",
+                opciones: [
+                    "América",
+                    "Antártida",
+                    "Ninguno",
+                    "El océano"
+                ],
+                correcta: 0
+            },
+
+            {
+                pregunta: "¿Qué demuestra la ropa tradicional?",
+                opciones: [
+                    "Parte de la cultura de un pueblo",
+                    "Solo moda moderna",
+                    "Uniformes escolares",
+                    "Deportes extremos"
+                ],
+                correcta: 0
+            },
+
+            {
+                pregunta: "¿Cuál es un beneficio de la diversidad cultural?",
+                opciones: [
+                    "Aprender nuevas formas de vivir",
+                    "Que todos sean iguales",
+                    "Evitar las tradiciones",
+                    "Eliminar idiomas"
+                ],
+                correcta: 0
+            },
+
+            {
+                pregunta: "¿Qué hacen los traductores?",
+                opciones: [
+                    "Enseñan matemáticas",
+                    "Cambian mensajes de un idioma a otro",
+                    "Fabrican libros",
+                    "Dibujan mapas"
+                ],
+                correcta: 1
+            },
+
+            {
+                pregunta: "¿Qué es el respeto cultural?",
+                opciones: [
+                    "Aceptar y valorar otras costumbres",
+                    "Burlarse de las diferencias",
+                    "Obligar a todos a pensar igual",
+                    "Ignorar tradiciones"
+                ],
+                correcta: 0
+            },
+
+            {
+                pregunta: "¿Qué tipo de comida puede mostrar una cultura?",
+                opciones: [
+                    "La comida típica",
+                    "Solo comida rápida",
+                    "Dulces importados",
+                    "Ninguna comida"
+                ],
+                correcta: 0
+            },
+
+            {
+                pregunta: "¿Por qué existen muchos idiomas en el mundo?",
+                opciones: [
+                    "Porque las personas y pueblos son diferentes",
+                    "Porque todos copiaron el mismo idioma",
+                    "Porque no hay comunicación",
+                    "Porque solo existe un país"
+                ],
+                correcta: 0
+            },
+
+            {
+                pregunta: "¿Qué debemos hacer al escuchar otro idioma?",
+                opciones: [
+                    "Respetarlo",
+                    "Reírnos",
+                    "Ignorarlo",
+                    "Prohibirlo"
+                ],
+                correcta: 0
+            },
+
+            {
+                pregunta: "¿Qué ayuda a conocer otras culturas?",
+                opciones: [
+                    "Viajar, leer y convivir",
+                    "Encerrarse siempre",
+                    "No aprender nada nuevo",
+                    "Evitar otras personas"
+                ],
+                correcta: 0
+            }
+
+        ];
+
+        // MEZCLAR PREGUNTAS ALEATORIAMENTE
+        preguntas.sort(() => Math.random() - 0.5);
+
+        let preguntaActual = 0;
+        let puntos = 0;
+        let correctas = 0;
+        let incorrectas = 0;
+        let tiempo = 10;
+        let temporizador;
+
+        function iniciarJuego() {
+
+            document
+                .getElementById("inicio")
+                .classList.add("oculto");
+
+            document
+                .getElementById("juego")
+                .classList.remove("oculto");
+
+            mostrarPregunta();
+        }
+
+        function mostrarPregunta() {
+
+            let p = preguntas[preguntaActual];
+
+            document.getElementById("numeroPregunta").innerHTML =
+                "Pregunta " + (preguntaActual + 1);
+
+            document.getElementById("pregunta").innerHTML =
+                p.pregunta;
+
+            let botones =
+                document.querySelectorAll(".respuesta");
+
+            // MEZCLAR OPCIONES
+            let opcionesMezcladas = p.opciones.map((texto, index) => {
+                return {
+                    texto: texto,
+                    original: index
+                };
+            });
+
+            opcionesMezcladas.sort(() => Math.random() - 0.5);
+
+            p.opcionesMezcladas = opcionesMezcladas;
+
+            for (let i = 0; i < 4; i++) {
+
+                botones[i].innerHTML =
+                    opcionesMezcladas[i].texto;
+
+                botones[i].style.background = "#3498db";
+
+                botones[i].disabled = false;
+            }
+
+            iniciarTemporizador();
+        }
+
+        function iniciarTemporizador() {
+
+            tiempo = 10;
+
+            document.getElementById("puntos").innerHTML =
+                "Puntos: " + puntos + " | Tiempo: " + tiempo;
+
+            temporizador = setInterval(() => {
+
+                tiempo--;
+
+                document.getElementById("puntos").innerHTML =
+                    "Puntos: " + puntos + " | Tiempo: " + tiempo;
+
+                if (tiempo <= 0) {
+
+                    clearInterval(temporizador);
+
+                    incorrectas++;
+
+                    siguientePregunta();
+                }
+
+            }, 1000);
+        }
+
+        function verificarRespuesta(opcion) {
+
+            clearInterval(temporizador);
+
+            let p = preguntas[preguntaActual];
+
+            let botones =
+                document.querySelectorAll(".respuesta");
+
+            botones.forEach(b => b.disabled = true);
+
+            let opcionSeleccionada =
+                p.opcionesMezcladas[opcion].original;
+
+            if (opcionSeleccionada === p.correcta) {
+
+                botones[opcion].style.background = "green";
+
+                puntos += 2;
+
+                correctas++;
+
+            } else {
+
+                botones[opcion].style.background = "red";
+
+                for (let i = 0; i < 4; i++) {
+
+                    if (
+                        p.opcionesMezcladas[i].original === p.correcta
+                    ) {
+                        botones[i].style.background = "green";
+                    }
+                }
+
+                incorrectas++;
+            }
+
+            document.getElementById("puntos").innerHTML =
+                "Puntos: " + puntos;
+
+            setTimeout(() => {
+
+                siguientePregunta();
+
+            }, 1000);
+        }
+
+        function siguientePregunta() {
+
+            preguntaActual++;
+
+            if (preguntaActual < preguntas.length) {
+
+                mostrarPregunta();
+
+            } else {
+
+                terminarJuego();
+            }
+        }
+
+        function terminarJuego() {
+
+            document
+                .getElementById("juego")
+                .classList.add("oculto");
+
+            document
+                .getElementById("final")
+                .classList.remove("oculto");
+
+            document.getElementById("resultado").innerHTML =
+                "Tu puntuación fue: " + puntos + " puntos" +
+                "<br><br>Correctas: " + correctas +
+                "<br>Incorrectas: " + incorrectas;
+        }
+
+    </script>
+
+</body>
+</html>
